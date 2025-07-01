@@ -1,4 +1,5 @@
 create table products (
+<<<<<<< HEAD
     id bigint auto_increment primary key,
     name varchar(100),
     price int,
@@ -21,3 +22,10 @@ create table wish(
     foreign key (member_id) references members(id),
     foreign key (product_id) references products(id)
 );
+=======
+    id bigint primary key,
+    name varchar(100),
+    price int,
+    imageUrl varchar(255)
+);
+>>>>>>> 26f9270 (step0 (#70))

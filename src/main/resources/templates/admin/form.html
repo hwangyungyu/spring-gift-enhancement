@@ -9,6 +9,7 @@
       th:action="@{/admin/products}"
       method="post"
       th:object="${product}">
+<<<<<<< HEAD
   <label>
     상품 이름:
     <input type="text" th:field="*{name}" />
@@ -32,6 +33,11 @@
     <input type="checkbox" th:field="*{MDapproved}" />
   </label><br>
 
+=======
+  <label>상품 이름: <input type="text" th:field="*{name}" /></label><br>
+  <label>가격: <input type="number" th:field="*{price}" /></label><br>
+  <label>이미지 URL: <input type="text" th:field="*{imageUrl}" /></label><br>
+>>>>>>> 26f9270 (step0 (#70))
   <button type="submit">등록</button>
 </form>
 
@@ -39,6 +45,7 @@
       th:action="@{/admin/products/{id}(id=${product.id})}"
       method="post"
       th:object="${product}">
+<<<<<<< HEAD
   <label>
     상품 이름:
     <input type="text" th:field="*{name}" />
@@ -62,10 +69,19 @@
     <input type="checkbox" th:field="*{MDapproved}" />
   </label><br>
 
+=======
+  <label>상품 이름: <input type="text" th:field="*{name}" /></label><br>
+  <label>가격: <input type="number" th:field="*{price}" /></label><br>
+  <label>이미지 URL: <input type="text" th:field="*{imageUrl}" /></label><br>
+>>>>>>> 26f9270 (step0 (#70))
   <button type="submit">수정</button>
 </form>
 
 <a th:href="@{/admin/products}">목록으로 돌아가기</a>
 
 </body>
+<<<<<<< HEAD
 </html>
+=======
+</html>
+>>>>>>> 26f9270 (step0 (#70))

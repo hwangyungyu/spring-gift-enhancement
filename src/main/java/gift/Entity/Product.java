@@ -1,5 +1,6 @@
 package gift.Entity;
 
+<<<<<<< HEAD
 import jakarta.validation.constraints.*;
 
 public class Product {
@@ -22,6 +23,19 @@ public class Product {
     @Min(value = 0, message = "가격은 0원 이상이어야 합니다.")
     private int price;
 
+=======
+// 검색으로 찾아내어 간편화된 코드
+//public record Product(Long id, String name, int price, String imageUrl){}
+
+// 기존 코드
+
+import gift.dto.ProductRequestDto;
+
+public class Product {
+    private Long id;
+    private String name;
+    private int price;
+>>>>>>> 26f9270 (step0 (#70))
     private String imageUrl;
 
     public Product() {
@@ -46,7 +60,22 @@ public class Product {
     public void setPrice(int price) { this.price = price; }
     public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 
+<<<<<<< HEAD
     // MD 확인여부 getter와 setter
     public boolean getMDapproved() { return MDapproved; }
     public void setMDapproved(boolean MDapproved) { this.MDapproved = MDapproved; }
 }
+=======
+
+
+    public void update(ProductRequestDto requestDto) {
+        this.name = requestDto.getName();
+        this.price = requestDto.getPrice();
+        this.imageUrl = requestDto.getImageUrl();
+    }
+}
+
+
+
+
+>>>>>>> 26f9270 (step0 (#70))
