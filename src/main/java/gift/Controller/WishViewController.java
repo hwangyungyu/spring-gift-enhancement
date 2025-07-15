@@ -3,7 +3,8 @@ package gift.Controller;
 import gift.Entity.Member;
 import gift.Entity.Product;
 import gift.annotation.LoginMember;
-import gift.dto.WishDao;
+import gift.service.ProductService;
+import gift.service.WishService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +15,12 @@ import java.util.List;
 @RequestMapping("/user/wishes")
 public class WishViewController {
 
-    private final WishDao wishDao;
+    private final WishService wishService;
+    private final ProductService productService;
 
-    public WishViewController(WishDao wishDao) {
-        this.wishDao = wishDao;
+    public WishViewController(WishService wishService, ProductService productService) {
+        this.wishService = wishService;
+        this.productService = productService;
     }
 
     // 위시리스트 보기
@@ -27,7 +30,7 @@ public class WishViewController {
             throw new RuntimeException("로그인이 되어있지 않습니다.");
         }
 
-        List<Product> wishProducts = wishDao.findWishesByMember(member.getId());
+        List<Product> wishProducts = wishService.getWishedProducts(member);
         model.addAttribute("wishProducts", wishProducts);
         return "products/wishlist";
     }
@@ -35,14 +38,16 @@ public class WishViewController {
     // 위시리스트에 추가
     @PostMapping("/{id}/wish")
     public String addWish(@PathVariable Long id, @LoginMember Member member) {
-        wishDao.insertWish(member.getId(), id);
+        Product product = productService.findById(id);
+        wishService.addWish(member, product);
         return "redirect:/user/products";
     }
 
     // 위시리스트에서 제거
     @PostMapping("/{id}/delete")
     public String removeWish(@PathVariable Long id, @LoginMember Member member) {
-        wishDao.deleteWish(member.getId(), id);
+        Product product = productService.findById(id);
+        wishService.removeWish(member, product);
         return "redirect:/user/products";
     }
 }

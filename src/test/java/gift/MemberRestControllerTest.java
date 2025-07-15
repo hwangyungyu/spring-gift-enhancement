@@ -1,9 +1,9 @@
 package gift;
 
 import gift.Entity.Member;
-import gift.dto.MemberDao;
-import gift.dto.MemberRequest;
-import gift.dto.TokenResponse;
+import gift.repository.MemberRepository;
+import gift.request.MemberRequest;
+import gift.request.TokenResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +26,14 @@ public class MemberRestControllerTest {
     private RestClient client = RestClient.builder().build();
 
     @Autowired
-    private MemberDao memberDao;
+    private MemberRepository memberRepository;
 
     @BeforeEach
     void setupTestMember() {
 
         // 테스트용 계정 등록
         Member member = new Member("helloworld", "hello@kakao.com", "123456789", "테스트", "대한민국", "USER");
-        memberDao.insertMember(member);
+        memberRepository.save(member);
     }
 
     @Transactional

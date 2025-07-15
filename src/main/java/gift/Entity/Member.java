@@ -1,9 +1,15 @@
 package gift.Entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.*;
 
+@Entity
+@Table(name = "members")
 public class Member {
 
+    @Id
     @NotBlank(message = "아이디는 필수입니다.")
     @Size(min = 5, message = "아이디는 5자 이상이어야 합니다.")
     private String id;

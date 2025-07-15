@@ -1,7 +1,6 @@
 package gift.admin;
 
 import gift.Entity.Product;
-import gift.dto.ProductDao;
 import gift.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -13,22 +12,20 @@ import java.util.*;
 
 @Controller
 @RequestMapping("/admin/products")
-public class AdminController {
+public class AdminProductController {
 
-    private final ProductDao productDao;
     private final ProductService productservice;
 
-    public AdminController( ProductService productservice, ProductDao productDao) {
+    public AdminProductController(ProductService productservice) {
         this.productservice = productservice;
-        this.productDao = productDao;
     }
 
     // 상품 목록 페이지
     @GetMapping
     public String list(Model model) {
-        List<Product> products = productDao.showProducts();
+        List<Product> products = productservice.findAll();
         model.addAttribute("products", products);
-        return "admin/list";
+        return "admin/product_list";
     }
 
     // 상품 등록 폼
@@ -37,7 +34,7 @@ public class AdminController {
     public String createForm(Model model) {
         model.addAttribute("product", new Product());
         model.addAttribute("formType", "add");
-        return "admin/form";
+        return "admin/product_form";
     }
 
     // 상품 등록 처리 -> 상품 등록에서  method="post" 로 등록 해놓았기 때문에 이곳으로 보내짐
@@ -48,10 +45,10 @@ public class AdminController {
                                 Model model) {
         if (!productservice.validateProduct(product, bindingResult)) {
             model.addAttribute("formType", "add");
-            return "admin/form";
+            return "admin/product_form";
         }
 
-        productDao.insertProduct(product);
+        productservice.save(product);
         return "redirect:/admin/products";
     }
 
@@ -59,10 +56,10 @@ public class AdminController {
     // 메소드 이름 중 첫 글자는 소문자로 시작하도록 통일
     @GetMapping("/{id}/edit")
     public String editProduct(@PathVariable Long id, Model model) {
-        Product product = productDao.selectProduct(id);
+        Product product = productservice.findById(id);
         model.addAttribute("product", product);
         model.addAttribute("formType", "edit");
-        return "admin/form";
+        return "admin/product_form";
     }
 
     // 상품 수정 처리
@@ -72,19 +69,19 @@ public class AdminController {
                                 Model model) {
         if (!productservice.validateProduct(product, bindingResult)) {
             model.addAttribute("formType", "add");
-            return "admin/form";
+            return "admin/product_form";
         }
 
-        productDao.updateProduct(id, product);
-        return "redirect:/admin/products";
+        productservice.save(product);
+        return "redirect:/admin/product_products";
     }
 
     // 상품 삭제 처리
     // 메소드 이름 중 첫 글자는 소문자로 시작하도록 통일
     @PostMapping("/{id}/delete")
     public String deleteProduct(@PathVariable Long id) {
-        productDao.deleteProduct(id);
-        return "redirect:/admin/products";
+        productservice.delete(id);
+        return "redirect:/admin/product_products";
     }
 
 }

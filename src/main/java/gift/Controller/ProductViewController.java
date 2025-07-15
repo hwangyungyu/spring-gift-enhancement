@@ -3,7 +3,7 @@ package gift.Controller;
 import gift.Entity.Member;
 import gift.Entity.Product;
 import gift.annotation.LoginMember;
-import gift.dto.ProductDao;
+import gift.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +13,10 @@ import java.util.List;
 @Controller
 public class ProductViewController {
 
-    private final ProductDao productDao;
+    private final ProductService productService;
 
-    public ProductViewController(ProductDao productDao) {
-        this.productDao = productDao;
+    public ProductViewController(ProductService productService) {
+        this.productService = productService;
     }
 
     /*
@@ -39,7 +39,7 @@ public class ProductViewController {
             return "redirect:/login";
         }
 
-        List<Product> products = productDao.showProducts();
+        List<Product> products = productService.findAll();
         model.addAttribute("products", products);
 
         model.addAttribute("member", member);

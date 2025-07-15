@@ -1,4 +1,4 @@
-package gift;
+package gift.config;
 
 import gift.resolver.LoginMemberArgumentResolver;
 import org.springframework.beans.factory.annotation.Autowired;

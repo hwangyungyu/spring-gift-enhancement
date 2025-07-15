@@ -1,4 +1,4 @@
-package gift.dto;
+package gift.request;
 
 import gift.Entity.Member;
 

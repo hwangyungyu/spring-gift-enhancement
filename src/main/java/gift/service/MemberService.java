@@ -2,23 +2,23 @@ package gift.service;
 
 import gift.Entity.Member;
 import gift.LoginResult;
-import gift.dto.MemberDao;
 import gift.Jwt.JwtUtil;
+import gift.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MemberService {
 
-    private final MemberDao memberDao;
+    private final MemberRepository memberRepository;
     private final JwtUtil jwtUtil;
 
-    public MemberService(MemberDao memberDao, JwtUtil jwtUtil) {
-        this.memberDao = memberDao;
+    public MemberService(MemberRepository memberRepository, JwtUtil jwtUtil) {
+        this.memberRepository = memberRepository;
         this.jwtUtil = jwtUtil;
     }
 
     public void register(Member member) {
-        if (memberDao.findById(member.getId()).isPresent()) {
+        if (memberRepository.existsById(member.getId())) {
             throw new IllegalArgumentException("이미 사용 중인 아이디입니다.");
         }
 
@@ -26,12 +26,12 @@ public class MemberService {
             member.setRole("USER");
         }
 
-        memberDao.insertMember(member);
+        memberRepository.save(member);
     }
 
     public LoginResult login(String id, String rawPassword) {
         // 아이디를 탐색하고 없다면 오류메시지를 던짐
-        Member member = memberDao.findById(id)
+        Member member = memberRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("아이디 또는 비밀번호가 일치하지 않습니다."));
 
         // 비밀번호를 탐색하고 일치하지 않다면 오류메시지를 던짐

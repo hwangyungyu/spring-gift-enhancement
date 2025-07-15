@@ -1,4 +1,4 @@
-package gift.dto;
+package gift.request;
 
 public class WishRequest {
     private final Long productId;
