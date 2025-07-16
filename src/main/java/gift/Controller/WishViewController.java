@@ -5,6 +5,8 @@ import gift.Entity.Product;
 import gift.annotation.LoginMember;
 import gift.service.ProductService;
 import gift.service.WishService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,13 +27,19 @@ public class WishViewController {
 
     // 위시리스트 보기
     @GetMapping
-    public String showWishList(@LoginMember Member member, Model model) {
+    public String showWishList(@LoginMember Member member,
+                               @RequestParam(defaultValue = "0") int page,
+                               @RequestParam(defaultValue = "5") int size,
+                               Model model) {
         if (member == null){
             throw new RuntimeException("로그인이 되어있지 않습니다.");
         }
 
-        List<Product> wishProducts = wishService.getWishedProducts(member);
-        model.addAttribute("wishProducts", wishProducts);
+        Page<Product> wishPage = wishService.getWishedProducts(member, PageRequest.of(page, size));
+        int maxPage = Math.max(3, wishPage.getTotalPages());  // 최소 3페이지
+
+        model.addAttribute("wishPage", wishPage);
+        model.addAttribute("maxPage", maxPage);
         return "products/wishlist";
     }
 

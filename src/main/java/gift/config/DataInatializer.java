@@ -9,11 +9,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class DataInitializer {
+public class DataInatializer {
 
     @Bean
     public CommandLineRunner initData(MemberRepository memberRepository, ProductRepository productRepository) {
         return args -> {
+            System.out.println("✅ DataInitializer 실행됨");
+
             if (memberRepository.findById("admin01").isEmpty()) {
                 memberRepository.save(new Member(
                         "admin01",
@@ -40,12 +42,10 @@ public class DataInitializer {
                 Product p = new Product();
                 p.setName("아이스 아메리카노 T");
                 p.setPrice(4500);
-                p.setImageUrl("https://st.kakaocdn.net/product/gift/product/20231010111814_9a667f9eccc943648797925498bdd8a3.jpg");
+                p.setImageUrl("https://image.example.com/americano.jpg");
                 p.setMDapproved(true);
                 productRepository.save(p);
             }
         };
     }
-
-
 }

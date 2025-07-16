@@ -4,11 +4,12 @@ import gift.Entity.Member;
 import gift.Entity.Product;
 import gift.annotation.LoginMember;
 import gift.service.ProductService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Controller
 public class ProductViewController {
@@ -34,15 +35,22 @@ public class ProductViewController {
 
     //따라서 로그인된 Member의 정보를 가져오기
     @GetMapping("/user/products")
-    public String list(Model model, @LoginMember Member member) {
+    public String list(Model model,
+                       @LoginMember Member member,
+                       @RequestParam(defaultValue = "0") int page,
+                       @RequestParam(defaultValue = "5") int size) {
         if (member == null) {
             return "redirect:/login";
         }
 
-        List<Product> products = productService.findAll();
-        model.addAttribute("products", products);
+        Page<Product> productPage = productService.findAll(PageRequest.of(page, size, Sort.by("name").ascending()));
 
+        // 최대 페이지를 넣음으로써 잘 구현되었는지 확인하기 위함
+        int maxPage = Math.max(3, productPage.getTotalPages());
+
+        model.addAttribute("productPage", productPage);
         model.addAttribute("member", member);
+        model.addAttribute("maxPage", maxPage);
 
         return "products/list";
     }

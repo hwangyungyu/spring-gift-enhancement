@@ -5,6 +5,8 @@ import gift.Entity.Product;
 import gift.Entity.Wish;
 import gift.Entity.WishId;
 import gift.repository.WishRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,6 +38,11 @@ public class WishService {
         return wishRepository.findByMember(member).stream()
                 .map(Wish::getProduct)
                 .collect(Collectors.toList());
+    }
+
+    public Page<Product> getWishedProducts(Member member, Pageable pageable) {
+        return wishRepository.findByMember(member, pageable)
+                .map(Wish::getProduct); // Wish → Product 변환
     }
 }
 
