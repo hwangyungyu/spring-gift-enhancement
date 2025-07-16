@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class DataInitializer {
+public class DataInatializer {
 
     @Bean
     public CommandLineRunner initData(MemberRepository memberRepository, ProductRepository productRepository) {
