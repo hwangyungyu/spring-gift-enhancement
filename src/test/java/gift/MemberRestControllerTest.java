@@ -105,5 +105,34 @@ public class MemberRestControllerTest {
         assertThat(html).contains("helloworld님, 안녕하세요!");
     }
 
+    @Test
+    public void testLoginAsAdminAndUser() {
+        // 관리자 계정 생성
+        Member admin = new Member("admin01", "admin@kakao.com", "adminpw", "관리자", "서울", "ADMIN");
+        memberRepository.save(admin);
+
+        // 유저 계정은 @BeforeEach에서 저장됨
+
+        // 관리자 로그인
+        var adminLoginRes = client.post()
+                .uri("http://localhost:" + port + "/api/login")
+                .body(new MemberRequest("admin01", "adminpw", null))
+                .retrieve()
+                .toEntity(TokenResponse.class);
+
+        assertThat(adminLoginRes.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(adminLoginRes.getBody().getRole()).isEqualTo("ADMIN");
+
+        // 유저 로그인
+        var userLoginRes = client.post()
+                .uri("http://localhost:" + port + "/api/login")
+                .body(new MemberRequest("helloworld", "123456789", null))
+                .retrieve()
+                .toEntity(TokenResponse.class);
+
+        assertThat(userLoginRes.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(userLoginRes.getBody().getRole()).isEqualTo("USER");
+    }
+
 
 }
