@@ -14,7 +14,7 @@ public class DataInatializer {
     @Bean
     public CommandLineRunner initData(MemberRepository memberRepository, ProductRepository productRepository) {
         return args -> {
-            System.out.println("✅ DataInitializer 실행됨");
+            System.out.println("DataInitializer 실행됨");
 
             if (memberRepository.findById("admin01").isEmpty()) {
                 memberRepository.save(new Member(

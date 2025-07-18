@@ -4,11 +4,12 @@ import gift.Entity.Member;
 import gift.Entity.Product;
 import gift.annotation.LoginMember;
 import gift.request.WishRequest;
+import gift.response.ProductResponse;
 import gift.service.ProductService;
 import gift.service.WishService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/wishes")
@@ -23,8 +24,9 @@ public class WishRestController {
     }
 
     @GetMapping
-    public List<Product> getWishes(@LoginMember Member member) {
-        return wishService.getWishedProducts(member);
+    public Page<ProductResponse> getWishes(@LoginMember Member member, Pageable pageable) {
+        return wishService.getWishedProducts(member, pageable)
+                .map(ProductResponse::new);
     }
 
     @PostMapping
@@ -39,4 +41,3 @@ public class WishRestController {
         wishService.removeWish(member, product);
     }
 }
-

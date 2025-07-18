@@ -59,5 +59,3 @@ public class WishViewController {
         return "redirect:/user/products";
     }
 }
-
-

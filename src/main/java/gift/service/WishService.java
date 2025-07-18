@@ -33,16 +33,8 @@ public class WishService {
         wishRepository.deleteById(id);
     }
 
-    // 찜한 상품 목록 조회
-    public List<Product> getWishedProducts(Member member) {
-        return wishRepository.findByMember(member).stream()
-                .map(Wish::getProduct)
-                .collect(Collectors.toList());
-    }
-
     public Page<Product> getWishedProducts(Member member, Pageable pageable) {
-        return wishRepository.findByMember(member, pageable)
-                .map(Wish::getProduct); // Wish → Product 변환
+        Page<Wish> wishes = wishRepository.findByMemberIdOptimized(member.getId(), pageable);
+        return wishes.map(Wish::getProduct); // Wish → Product 매핑
     }
 }
-

@@ -5,14 +5,13 @@ import gift.Entity.Product;
 import gift.repository.MemberRepository;
 import gift.repository.ProductRepository;
 import gift.request.MemberRequest;
-import gift.request.TokenResponse;
+import gift.response.TokenResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.context.jdbc.Sql;
 import org.springframework.web.client.RestClient;
 
 import static org.assertj.core.api.Assertions.assertThat;

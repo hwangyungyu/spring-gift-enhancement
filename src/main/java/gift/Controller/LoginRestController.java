@@ -2,7 +2,7 @@ package gift.Controller;
 
 import gift.LoginResult;
 import gift.request.MemberRequest;
-import gift.request.TokenResponse;
+import gift.response.TokenResponse;
 import gift.service.MemberService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,4 +31,3 @@ public class LoginRestController {
         }
     }
 }
-

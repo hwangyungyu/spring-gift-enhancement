@@ -48,11 +48,10 @@ public class LoginViewController {
                     .orElseThrow(() -> new IllegalArgumentException("해당 사용자를 찾을 수 없습니다."));;
 
             // 관리자면 /admin, 아니면 /user/products
-            if ("ADMIN".equalsIgnoreCase(member.getRole())) {
+            if (member.isAdmin()) {
                 return "redirect:/admin";
-            } else {
-                return "redirect:/user/products";
             }
+            return "redirect:/user/products";
 
         }catch (Exception e){
             model.addAttribute("member", new Member());

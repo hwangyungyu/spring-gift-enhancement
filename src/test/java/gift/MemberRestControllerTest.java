@@ -3,7 +3,7 @@ package gift;
 import gift.Entity.Member;
 import gift.repository.MemberRepository;
 import gift.request.MemberRequest;
-import gift.request.TokenResponse;
+import gift.response.TokenResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -28,3 +28,4 @@ public class WishId implements Serializable {
         return Objects.hash(member, product);
     }
 }
+

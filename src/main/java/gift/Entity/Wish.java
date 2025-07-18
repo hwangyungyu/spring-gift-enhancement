@@ -18,7 +18,7 @@ public class Wish {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    public Wish() {}
+    protected Wish() {}
 
     public Wish(Member member, Product product) {
         this.member = member;
@@ -28,6 +28,4 @@ public class Wish {
     public Member getMember() { return member; }
     public Product getProduct() { return product; }
 
-    public void setMember(Member member) { this.member = member; }
-    public void setProduct(Product product) { this.product = product; }
 }
