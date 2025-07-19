@@ -1,7 +1,7 @@
 package gift.Controller;
 
 import gift.Entity.Product;
-import gift.dto.ProductDao;
+import gift.service.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,16 +10,17 @@ import java.util.List;
 @RestController
 public class ProductRestController {
 
-    private final ProductDao productDao;
+    private final ProductService productService;
 
-    public ProductRestController(ProductDao productDao) {
-        this.productDao = productDao;
+    public ProductRestController(ProductService productService) {
+        this.productService = productService;
     }
 
     @PostMapping("/products")
     public ResponseEntity<Product> insertProduct(@RequestBody Product product) {
         try{
-            productDao.insertProduct(product);
+            productService.validateProductException(product);
+            Product saved = productService.save(product);
             return ResponseEntity.ok(product);
         } catch (IllegalArgumentException e){
             return ResponseEntity.badRequest().build();
@@ -27,34 +28,39 @@ public class ProductRestController {
 
     }
 
+    // 전체 상품 조히
     @GetMapping("/products")
     public ResponseEntity<List<Product>> showAllProducts() {
-        return ResponseEntity.ok(productDao.showProducts());
+        return ResponseEntity.ok(productService.findAll());
     }
 
+    // 단일 상품 조회
     @GetMapping("/products/{id}")
     public ResponseEntity<Object> selectProduct(@PathVariable Long id) {
         try{
-            return ResponseEntity.ok(productDao.selectProduct(id));
+            return ResponseEntity.ok(productService.findById(id));
         } catch (Exception e){
             return ResponseEntity.notFound().build();
         }
 
     }
 
+    // 상품 수정
     @PutMapping("/products/{id}")
     public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product product) {
         try{
-            productDao.updateProduct(id, product);
+            productService.validateProductException(product);
+            product.setId(id);
             return ResponseEntity.ok(product);
         }catch (IllegalArgumentException e){
             return ResponseEntity.badRequest().build();
         }
     }
 
+    // 상품 삭제
     @DeleteMapping("/products/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
-        productDao.deleteProduct(id);
+        productService.delete(id);
         return ResponseEntity.ok().build();
     }
 }

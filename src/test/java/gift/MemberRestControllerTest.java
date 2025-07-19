@@ -1,9 +1,9 @@
 package gift;
 
 import gift.Entity.Member;
-import gift.dto.MemberDao;
-import gift.dto.MemberRequest;
-import gift.dto.TokenResponse;
+import gift.repository.MemberRepository;
+import gift.request.MemberRequest;
+import gift.response.TokenResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +26,14 @@ public class MemberRestControllerTest {
     private RestClient client = RestClient.builder().build();
 
     @Autowired
-    private MemberDao memberDao;
+    private MemberRepository memberRepository;
 
     @BeforeEach
     void setupTestMember() {
 
         // 테스트용 계정 등록
         Member member = new Member("helloworld", "hello@kakao.com", "123456789", "테스트", "대한민국", "USER");
-        memberDao.insertMember(member);
+        memberRepository.save(member);
     }
 
     @Transactional
@@ -103,6 +103,35 @@ public class MemberRestControllerTest {
                 .body(String.class);
 
         assertThat(html).contains("helloworld님, 안녕하세요!");
+    }
+
+    @Test
+    public void testLoginAsAdminAndUser() {
+        // 관리자 계정 생성
+        Member admin = new Member("admin01", "admin@kakao.com", "adminpw", "관리자", "서울", "ADMIN");
+        memberRepository.save(admin);
+
+        // 유저 계정은 @BeforeEach에서 저장됨
+
+        // 관리자 로그인
+        var adminLoginRes = client.post()
+                .uri("http://localhost:" + port + "/api/login")
+                .body(new MemberRequest("admin01", "adminpw", null))
+                .retrieve()
+                .toEntity(TokenResponse.class);
+
+        assertThat(adminLoginRes.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(adminLoginRes.getBody().getRole()).isEqualTo("ADMIN");
+
+        // 유저 로그인
+        var userLoginRes = client.post()
+                .uri("http://localhost:" + port + "/api/login")
+                .body(new MemberRequest("helloworld", "123456789", null))
+                .retrieve()
+                .toEntity(TokenResponse.class);
+
+        assertThat(userLoginRes.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(userLoginRes.getBody().getRole()).isEqualTo("USER");
     }
 
 

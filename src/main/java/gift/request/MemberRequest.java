@@ -1,4 +1,4 @@
-package gift.dto;
+package gift.request;
 
 public class MemberRequest {
     private final String id;
@@ -15,4 +15,3 @@ public class MemberRequest {
     public String getPassword() { return password; }
     public String getName() { return name; }
 }
-

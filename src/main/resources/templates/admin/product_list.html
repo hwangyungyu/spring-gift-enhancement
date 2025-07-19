@@ -16,7 +16,7 @@
       <a th:href="@{'/admin/products/' + ${p.id} + '/edit'}">수정</a>
       <form th:action="@{'/admin/products/' + ${p.id} + '/delete'}" method="post" style = "display: inline">
         <button type = "submit">삭제</button>
-        </form>
+      </form>
     </td>
   </tr>
 </table>
@@ -25,6 +25,8 @@
     <p><a th:href="@{/admin/products/add}">상품 추가</a></p>
   </tr>
 </table>
+
+<a th:href="@{/admin}">목록으로 돌아가기</a>
 
 </body>
 </html>

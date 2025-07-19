@@ -9,7 +9,7 @@
   <tr>
     <th>ID</th><th>Name</th><th>Price</th><th>Image</th><th>Manage</th>
   </tr>
-  <tr th:each="p : ${products}">
+  <tr th:each="p : ${productPage.content}">
     <td th:text="${p.id}">1</td>
     <td th:text="${p.name}">이름</td>
     <td th:text="${p.price}">가격</td>
@@ -24,7 +24,22 @@
       </form>
     </td>
   </tr>
+
+  <!-- 상품이 없을 경우에 출력함 -->
+  <tr th:if="${productPage.content.isEmpty()}">
+    <td colspan="5">이 페이지에는 상품이 없습니다.</td>
+  </tr>
 </table>
+
+<div>
+  <ul style="list-style: none; display: flex; padding: 0;">
+    <li th:each="i : ${#numbers.sequence(0, maxPage - 1)}" style="margin-right: 10px;">
+      <a th:href="@{/user/products(page=${i})}"
+         th:style="${i == productPage.number} ? 'font-weight: bold;' : ''"
+         th:text="${i + 1}">1</a>
+    </li>
+  </ul>
+</div>
 
 <br>
 <a href="/user/wishes">
