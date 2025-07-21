@@ -1,7 +1,9 @@
 package gift.Controller;
 
 import gift.Entity.Member;
+import gift.Entity.Option;
 import gift.Entity.Product;
+import gift.Entity.Wish;
 import gift.annotation.LoginMember;
 import gift.service.ProductService;
 import gift.service.WishService;
@@ -35,7 +37,7 @@ public class WishViewController {
             throw new RuntimeException("로그인이 되어있지 않습니다.");
         }
 
-        Page<Product> wishPage = wishService.getWishedProducts(member, PageRequest.of(page, size));
+        Page<Wish> wishPage = wishService.getWishes(member, PageRequest.of(page, size));
         int maxPage = Math.max(3, wishPage.getTotalPages());  // 최소 3페이지
 
         model.addAttribute("wishPage", wishPage);
@@ -44,18 +46,20 @@ public class WishViewController {
     }
 
     // 위시리스트에 추가
-    @PostMapping("/{id}/wish")
-    public String addWish(@PathVariable Long id, @LoginMember Member member) {
-        Product product = productService.findById(id);
-        wishService.addWish(member, product);
+    @PostMapping("/wish")
+    public String addWish(@RequestParam Long optionId ,@LoginMember Member member) {
+        Option option = productService.findOptionById(optionId);
+        Product product = option.getProduct();
+        wishService.addWish(member, product, option);
         return "redirect:/user/products";
     }
 
     // 위시리스트에서 제거
-    @PostMapping("/{id}/delete")
-    public String removeWish(@PathVariable Long id, @LoginMember Member member) {
-        Product product = productService.findById(id);
-        wishService.removeWish(member, product);
+    @PostMapping("/delete")
+    public String removeWish(@RequestParam Long optionId, @LoginMember Member member) {
+        Option option = productService.findOptionById(optionId);
+        Product product = option.getProduct();
+        wishService.removeWish(member, product, option);
         return "redirect:/user/products";
     }
 }

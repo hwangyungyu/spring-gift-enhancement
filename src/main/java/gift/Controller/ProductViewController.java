@@ -2,6 +2,7 @@ package gift.Controller;
 
 import gift.Entity.Member;
 import gift.Entity.Product;
+import gift.Entity.Option;
 import gift.annotation.LoginMember;
 import gift.service.ProductService;
 import org.springframework.data.domain.Page;
@@ -10,6 +11,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class ProductViewController {
@@ -45,12 +50,19 @@ public class ProductViewController {
 
         Page<Product> productPage = productService.findAll(PageRequest.of(page, size, Sort.by("name").ascending()));
 
+        Map<Long, List<Option>> optionMap = new HashMap<>();
+        for (Product product : productPage.getContent()) {
+            List<Option> options = productService.findOptionsByProductId(product.getId()); // service에서 위임
+            optionMap.put(product.getId(), options);
+        }
+
         // 최대 페이지를 넣음으로써 잘 구현되었는지 확인하기 위함
         int maxPage = Math.max(3, productPage.getTotalPages());
 
         model.addAttribute("productPage", productPage);
         model.addAttribute("member", member);
         model.addAttribute("maxPage", maxPage);
+        model.addAttribute("optionMap", optionMap); // 추가된 옵션 정보를 전달
 
         return "products/list";
     }

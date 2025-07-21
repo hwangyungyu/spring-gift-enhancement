@@ -3,6 +3,9 @@ package gift.Entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "products")
 public class Product {
@@ -55,4 +58,20 @@ public class Product {
     // MD 확인여부 getter와 setter
     public boolean getMDapproved() { return MDapproved; }
     public void setMDapproved(boolean MDapproved) { this.MDapproved = MDapproved; }
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Option> options = new ArrayList<>();
+
+    // 옵션 리스트 getter/setter 추가
+    public List<Option> getOptions() {
+        return options;
+    }
+
+    public void setOptions(List<Option> options) {
+        this.options = options;
+        // 연관관계 주인 쪽에 product 설정
+        for (Option option : options) {
+            option.setProduct(this);
+        }
+    }
 }

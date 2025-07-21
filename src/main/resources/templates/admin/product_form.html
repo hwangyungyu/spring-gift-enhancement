@@ -32,6 +32,31 @@
     <input type="checkbox" th:field="*{MDapproved}" />
   </label><br>
 
+  <h3>옵션 목록</h3>
+  <div th:each="opt, iterStat : *{options}">
+    <label>
+      옵션 이름:
+      <input type="text" th:field="*{options[__${iterStat.index}__].name}" />
+    </label>
+    <label>
+      수량:
+      <input type="number" th:field="*{options[__${iterStat.index}__].quantity}" />
+    </label>
+    <br>
+  </div>
+
+  <!-- 빈 옵션 3개 기본 제공 -->
+  <div th:if="${#lists.isEmpty(product.options)}">
+    <label>옵션 이름: <input type="text" name="options[0].name" /></label>
+    <label>수량: <input type="number" name="options[0].quantity" /></label><br>
+
+    <label>옵션 이름: <input type="text" name="options[1].name" /></label>
+    <label>수량: <input type="number" name="options[1].quantity" /></label><br>
+
+    <label>옵션 이름: <input type="text" name="options[2].name" /></label>
+    <label>수량: <input type="number" name="options[2].quantity" /></label><br>
+  </div>
+
   <button type="submit">등록</button>
 </form>
 
@@ -61,6 +86,31 @@
     '카카오' 사용 MD 협의 완료:
     <input type="checkbox" th:field="*{MDapproved}" />
   </label><br>
+
+  <h3>옵션 목록</h3>
+  <div th:each="opt, iterStat : *{options}">
+    <label>
+      옵션 이름:
+      <input type="text" th:field="*{options[__${iterStat.index}__].name}" />
+    </label>
+    <label>
+      수량:
+      <input type="number" th:field="*{options[__${iterStat.index}__].quantity}" />
+    </label>
+    <br>
+  </div>
+
+  <!-- 빈 옵션 3개 기본 제공 -->
+  <div th:if="${#lists.isEmpty(product.options)}">
+    <label>옵션 이름: <input type="text" name="options[0].name" /></label>
+    <label>수량: <input type="number" name="options[0].quantity" /></label><br>
+
+    <label>옵션 이름: <input type="text" name="options[1].name" /></label>
+    <label>수량: <input type="number" name="options[1].quantity" /></label><br>
+
+    <label>옵션 이름: <input type="text" name="options[2].name" /></label>
+    <label>수량: <input type="number" name="options[2].quantity" /></label><br>
+  </div>
 
   <button type="submit">수정</button>
 </form>

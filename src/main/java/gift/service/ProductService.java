@@ -1,6 +1,8 @@
 package gift.service;
 
 import gift.Entity.Product;
+import gift.Entity.Option;
+import gift.repository.OptionRepository;
 import gift.repository.ProductRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,9 +16,11 @@ import java.util.List;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final OptionRepository optionRepository;
 
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository, OptionRepository optionRepository) {
         this.productRepository = productRepository;
+        this.optionRepository = optionRepository;
     }
 
     // if문으로 제어해보기
@@ -55,5 +59,15 @@ public class ProductService {
 
     public void delete(Long id) {
         productRepository.deleteById(id);
+    }
+
+    // 옵션
+    public List<Option> findOptionsByProductId(Long productId) {
+        return optionRepository.findByProductId(productId);
+    }
+
+    public Option findOptionById(Long id) {
+        return optionRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("옵션을 찾을 수 없습니다."));
     }
 }

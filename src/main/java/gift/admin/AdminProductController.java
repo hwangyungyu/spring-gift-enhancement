@@ -1,5 +1,6 @@
 package gift.admin;
 
+import gift.Entity.Option;
 import gift.Entity.Product;
 import gift.service.ProductService;
 import jakarta.validation.Valid;
@@ -48,6 +49,12 @@ public class AdminProductController {
             return "admin/product_form";
         }
 
+        if (product.getOptions() != null) {
+            for (Option opt : product.getOptions()) {
+                opt.setProduct(product);
+            }
+        }
+
         productservice.save(product);
         return "redirect:/admin/products";
     }
@@ -72,8 +79,18 @@ public class AdminProductController {
             return "admin/product_form";
         }
 
+        product.setId(id);
+
+        product.setId(id);
+
+        if (product.getOptions() != null) {
+            for (Option opt : product.getOptions()) {
+                opt.setProduct(product);
+            }
+        }
+
         productservice.save(product);
-        return "redirect:/admin/product_products";
+        return "redirect:/admin/products";
     }
 
     // 상품 삭제 처리
@@ -81,7 +98,7 @@ public class AdminProductController {
     @PostMapping("/{id}/delete")
     public String deleteProduct(@PathVariable Long id) {
         productservice.delete(id);
-        return "redirect:/admin/product_products";
+        return "redirect:/admin/products";
     }
 
 }
