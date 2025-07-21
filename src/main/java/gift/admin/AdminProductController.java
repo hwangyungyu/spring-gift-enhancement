@@ -81,8 +81,6 @@ public class AdminProductController {
 
         product.setId(id);
 
-        product.setId(id);
-
         if (product.getOptions() != null) {
             for (Option opt : product.getOptions()) {
                 opt.setProduct(product);

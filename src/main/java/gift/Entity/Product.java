@@ -67,11 +67,4 @@ public class Product {
         return options;
     }
 
-    public void setOptions(List<Option> options) {
-        this.options = options;
-        // 연관관계 주인 쪽에 product 설정
-        for (Option option : options) {
-            option.setProduct(this);
-        }
-    }
 }

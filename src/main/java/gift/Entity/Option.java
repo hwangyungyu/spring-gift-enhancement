@@ -34,17 +34,6 @@ public class Option {
         this.product = product;
     }
 
-    // 수량 차감 로직
-    public void subtract(int amount) {
-        if (amount < 1) {
-            throw new IllegalArgumentException("차감 수량은 1 이상이어야 합니다.");
-        }
-        if (quantity < amount) {
-            throw new IllegalArgumentException("재고가 부족합니다.");
-        }
-        this.quantity -= amount;
-    }
-
     // Getter & Setter
     public Long getId() { return id; }
     public String getName() { return name; }
