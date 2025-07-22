@@ -70,4 +70,31 @@ public class ProductService {
         return optionRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("옵션을 찾을 수 없습니다."));
     }
+
+    @Transactional
+    public void updateProduct(Long id, Product product) {
+        Product existing = productRepository.findById(id).orElseThrow();
+
+        // 옵션 먼저 삭제
+        optionRepository.deleteByProductId(id);
+
+        // 기존 상품 정보 업데이트
+        existing.setName(product.getName());
+        existing.setPrice(product.getPrice());
+        existing.setImageUrl(product.getImageUrl());
+        existing.setMDapproved(product.getMDapproved());
+
+        // 새 옵션 세팅
+        if (product.getOptions() != null) {
+            for (Option opt : product.getOptions()) {
+                opt.setProduct(existing); // 양방향 연관
+            }
+            existing.getOptions().clear(); // 리스트 클리어
+            existing.getOptions().addAll(product.getOptions());
+        }
+
+        productRepository.save(existing);
+    }
+
+
 }

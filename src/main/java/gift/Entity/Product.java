@@ -1,6 +1,7 @@
 package gift.Entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 
 import java.util.ArrayList;
@@ -60,11 +61,11 @@ public class Product {
     public void setMDapproved(boolean MDapproved) { this.MDapproved = MDapproved; }
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Valid
     private List<Option> options = new ArrayList<>();
 
     // 옵션 리스트 getter/setter 추가
     public List<Option> getOptions() {
         return options;
     }
-
 }

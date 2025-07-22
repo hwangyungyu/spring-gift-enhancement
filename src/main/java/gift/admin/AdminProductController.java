@@ -71,25 +71,20 @@ public class AdminProductController {
 
     // 상품 수정 처리
     @PostMapping("/{id}")
-    public String updateProduct(@PathVariable Long id, @ModelAttribute @Valid Product product,
+    public String updateProduct(@PathVariable Long id,
+                                @ModelAttribute @Valid Product product,
                                 BindingResult bindingResult,
                                 Model model) {
         if (!productservice.validateProduct(product, bindingResult)) {
-            model.addAttribute("formType", "add");
+            model.addAttribute("formType", "edit");
             return "admin/product_form";
         }
 
-        product.setId(id);
-
-        if (product.getOptions() != null) {
-            for (Option opt : product.getOptions()) {
-                opt.setProduct(product);
-            }
-        }
-
-        productservice.save(product);
+        productservice.updateProduct(id, product);
         return "redirect:/admin/products";
     }
+
+
 
     // 상품 삭제 처리
     // 메소드 이름 중 첫 글자는 소문자로 시작하도록 통일
