@@ -1,4 +1,4 @@
-package gift.Entity;
+package gift.entity;
 
 import java.io.Serializable;
 import java.util.Objects;

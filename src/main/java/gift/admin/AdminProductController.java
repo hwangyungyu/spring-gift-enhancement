@@ -1,7 +1,7 @@
 package gift.admin;
 
-import gift.Entity.Option;
-import gift.Entity.Product;
+import gift.entity.Option;
+import gift.entity.Product;
 import gift.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -50,9 +50,8 @@ public class AdminProductController {
         }
 
         if (product.getOptions() != null) {
-            for (Option opt : product.getOptions()) {
-                opt.setProduct(product);
-            }
+            List<Option> options = new ArrayList<>(product.getOptions());
+            product.setOptions(options);
         }
 
         productservice.save(product);
@@ -78,6 +77,11 @@ public class AdminProductController {
         if (!productservice.validateProduct(product, bindingResult)) {
             model.addAttribute("formType", "edit");
             return "admin/product_form";
+        }
+
+        if (product.getOptions() != null) {
+            List<Option> options = new ArrayList<>(product.getOptions());
+            product.setOptions(options);
         }
 
         productservice.updateProduct(id, product);

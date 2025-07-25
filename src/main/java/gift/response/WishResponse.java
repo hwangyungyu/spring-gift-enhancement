@@ -1,6 +1,6 @@
 package gift.response;
 
-import gift.Entity.Wish;
+import gift.entity.Wish;
 
 public class WishResponse {
 

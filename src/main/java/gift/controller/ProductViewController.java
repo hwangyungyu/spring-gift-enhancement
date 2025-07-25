@@ -1,8 +1,8 @@
-package gift.Controller;
+package gift.controller;
 
-import gift.Entity.Member;
-import gift.Entity.Product;
-import gift.Entity.Option;
+import gift.entity.Member;
+import gift.entity.Product;
+import gift.entity.Option;
 import gift.annotation.LoginMember;
 import gift.service.ProductService;
 import org.springframework.data.domain.Page;
@@ -48,21 +48,16 @@ public class ProductViewController {
             return "redirect:/login";
         }
 
-        Page<Product> productPage = productService.findAll(PageRequest.of(page, size, Sort.by("name").ascending()));
+        Page<Product> productPage = productService.findAll(
+                PageRequest.of(page, size, Sort.by("name").ascending())
+        );
 
-        Map<Long, List<Option>> optionMap = new HashMap<>();
-        for (Product product : productPage.getContent()) {
-            List<Option> options = productService.findOptionsByProductId(product.getId()); // service에서 위임
-            optionMap.put(product.getId(), options);
-        }
-
-        // 최대 페이지를 넣음으로써 잘 구현되었는지 확인하기 위함
+        // 옵션은 이미 페치 조인되어 있으므로 별도로 조회할 필요 없음
         int maxPage = Math.max(3, productPage.getTotalPages());
 
         model.addAttribute("productPage", productPage);
         model.addAttribute("member", member);
         model.addAttribute("maxPage", maxPage);
-        model.addAttribute("optionMap", optionMap); // 추가된 옵션 정보를 전달
 
         return "products/list";
     }

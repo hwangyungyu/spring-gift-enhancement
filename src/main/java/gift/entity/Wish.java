@@ -1,7 +1,6 @@
-package gift.Entity;
+package gift.entity;
 
 import jakarta.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @Table(name = "wish")

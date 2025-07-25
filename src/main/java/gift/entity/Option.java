@@ -1,4 +1,4 @@
-package gift.Entity;
+package gift.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;

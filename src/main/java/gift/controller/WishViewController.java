@@ -1,9 +1,9 @@
-package gift.Controller;
+package gift.controller;
 
-import gift.Entity.Member;
-import gift.Entity.Option;
-import gift.Entity.Product;
-import gift.Entity.Wish;
+import gift.entity.Member;
+import gift.entity.Option;
+import gift.entity.Product;
+import gift.entity.Wish;
 import gift.annotation.LoginMember;
 import gift.service.ProductService;
 import gift.service.WishService;
@@ -12,8 +12,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/user/wishes")
